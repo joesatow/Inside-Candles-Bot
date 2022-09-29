@@ -1,13 +1,26 @@
 import requests
+from helperFuncs import getEndDate, getStatDate, get_chart
 
-# Get epoch time in MILLISECONDS for endDate = today, startDate = 2 days ago
+# Grab dates from helper function
+endDate = getEndDate()
+startDate = getStatDate()
 
-url = "https://api.tdameritrade.com/v1/marketdata/AAPL/pricehistory?apikey=KM7SSWFJANTN4HOJIMYUGZAY1C09QWH3&periodType=month&period=1&frequencyType=daily&frequency=1"
+# API call
+url = f"https://api.tdameritrade.com/v1/marketdata/AAPL/pricehistory?apikey=KM7SSWFJANTN4HOJIMYUGZAY1C09QWH3&periodType=month&frequencyType=daily&frequency=1&endDate={endDate}&startDate={startDate}"
+response = requests.request("GET", url, headers={}, data={})
+response = response.json()['candles'] # only focus on candles part of API response
 
-payload={}
-headers = {}
+# Parse response into variables
+today, yesterday, twoDaysAgo = response[-1], response[-2], response[-3]
 
-response = requests.request("GET", url, headers=headers, data=payload)
-response = response.json()
+# Check for single inside day
+insideHighs = today['high'] < yesterday['high']
+insideLows = today['low'] > yesterday['low']
 
-print(response['candles'][-1])
+if insideHighs and insideLows:
+    print
+
+# Check for double inside days
+doubleInsideHighs = insideHighs and yesterday['high'] < twoDaysAgo['high']
+doubleInsideLows = insideLows and yesterday['low'] > twoDaysAgo['low']
+
