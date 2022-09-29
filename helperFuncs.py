@@ -1,6 +1,7 @@
 import math
 import requests
 import os
+import time
 from requests import Response
 from datetime import datetime, timedelta
 from urllib.parse import urlencode
@@ -24,7 +25,7 @@ def getEndDate():
 def getStatDate():
     return startDate
 
-def get_chart(period, size, chart_type,ta):
+def get_chart(ticker, period, size, chart_type,ta):
     """
         :param period: table period eg. : 'd', 'w' or 'm' for daily, weekly and monthly periods
         :type period: str
@@ -50,9 +51,9 @@ def finviz_request(url: str, user_agent: str) -> Response:
     response = requests.get(url, headers={"User-Agent": user_agent})
     return response
 
-def download_chart_image(page_content: requests.Response, **kwargs):
+def download_chart_image(page_content: requests.Response, url,):
     """ Downloads a .png image of a chart into the "charts" folder. """
-    file_name = f"{kwargs['URL'].split('t=')[1]}_{int(time.time())}.png"
+    file_name = f"{url.split('t=')[1]}_{int(time.time())}.png"
 
     if not os.path.exists("charts"):
         os.mkdir("charts")
@@ -62,5 +63,4 @@ def download_chart_image(page_content: requests.Response, **kwargs):
     
 def data_scrape(scrape_func, url, user_agent):
     response = finviz_request(url, user_agent)
-    kwargs["URL"] = url
-    data.append(scrape_func(response, *args, **kwargs))
+    scrape_func(response, url)
