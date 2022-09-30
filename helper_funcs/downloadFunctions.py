@@ -10,13 +10,9 @@ user_agent = generate_user_agent()
 def get_chart(ticker, period, size, chart_type,ta):
     """
         :param period: table period eg. : 'd', 'w' or 'm' for daily, weekly and monthly periods
-        :type period: str
         :param size: table size eg.: 'l' for large or 's' for small - choose large for better quality but higher size
-        :type size: str
         :param chart_type: chart type: 'c' for candles or 'l' for lines
-        :type chart_type: str
         :param ta: technical analysis eg.: '1' to show ta '0' to hide ta
-        :type ta: str
     """
 
     encoded_payload = urlencode(
@@ -25,7 +21,8 @@ def get_chart(ticker, period, size, chart_type,ta):
     
     url = f"https://finviz.com/chart.ashx?{encoded_payload}&t={ticker}"
     response = finviz_request(url, user_agent)
-    download_chart_image(response, url)
+    #download_chart_image(response, url)
+    return response
 
 def finviz_request(url: str, user_agent: str) -> Response:
     response = requests.get(url, headers={"User-Agent": user_agent})

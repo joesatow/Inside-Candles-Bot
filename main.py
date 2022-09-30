@@ -3,7 +3,7 @@ from helper_funcs.downloadFunctions import get_chart
 from helper_funcs.twitterFunctions import sendTweet
 
 # List of stock symbols to scan.  All optionable. Case sensitive.
-symbolsList = ['AAPL','BABA']
+symbolsList = ['AAPL']
 
 for symbol in symbolsList:
     # Call TD API
@@ -25,5 +25,5 @@ for symbol in symbolsList:
     doubleInsideHighs = insideHighs and yesterday['high'] < twoDaysAgo['high']
     doubleInsideLows = insideLows and yesterday['low'] > twoDaysAgo['low']
 
-    get_chart('AAPL', 'd','l','c',0)
-
+    finvizChartResponse = get_chart('AAPL', 'd','l','c',0)
+    sendTweet(finvizChartResponse.content)
