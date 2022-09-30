@@ -1,29 +1,11 @@
-import math
 import requests
 import os
 import time
 from requests import Response
-from datetime import datetime, timedelta
 from urllib.parse import urlencode
 from user_agent import generate_user_agent
 
 user_agent = generate_user_agent()
-def timestamp(dt):
-    epoch = datetime.utcfromtimestamp(0)
-    return (dt - epoch).total_seconds() * 1000.0
-
-currentYear = datetime.now().year
-currentMonth = datetime.now().month
-currentDay = datetime.now().day
-todayMarketCloseTime = datetime(currentYear,currentMonth,currentDay,20,1,0)
-endDate = math.trunc(timestamp(todayMarketCloseTime)) # datetime(year, month, day, hour, minute, second)
-startDate = math.trunc(timestamp(todayMarketCloseTime-timedelta(days=2))) # subtract two days
-
-def getEndDate():
-    return endDate
-
-def getStatDate():
-    return startDate
 
 def get_chart(ticker, period, size, chart_type,ta):
     """
@@ -47,7 +29,6 @@ def get_chart(ticker, period, size, chart_type,ta):
 
 def finviz_request(url: str, user_agent: str) -> Response:
     response = requests.get(url, headers={"User-Agent": user_agent})
-    print(response)
     return response
 
 def download_chart_image(page_content: requests.Response, url,):
@@ -59,5 +40,3 @@ def download_chart_image(page_content: requests.Response, url,):
 
     with open(os.path.join("charts", file_name), "wb") as handle:
         handle.write(page_content.content)
-    
-

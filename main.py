@@ -1,5 +1,6 @@
 import requests
-from helperFuncs import getEndDate, getStatDate, get_chart
+from helper_funcs.dateFunctions import getEndDate, getStatDate
+from helper_funcs.downloadFunctions import get_chart
 
 # Grab dates from helper function
 endDate = getEndDate()
