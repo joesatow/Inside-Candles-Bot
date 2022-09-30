@@ -1,29 +1,29 @@
-import requests
-from helper_funcs.dateFunctions import getEndDate, getStatDate
+from helper_funcs.TDA_Functions import call_TD_API
 from helper_funcs.downloadFunctions import get_chart
+from helper_funcs.twitterFunctions import sendTweet
 
-# Grab dates from helper function
-endDate = getEndDate()
-startDate = getStatDate()
+# List of stock symbols to scan.  All optionable. Case sensitive.
+symbolsList = ['AAPL','BABA']
 
-# API call
-url = f"https://api.tdameritrade.com/v1/marketdata/AAPL/pricehistory?apikey=KM7SSWFJANTN4HOJIMYUGZAY1C09QWH3&periodType=month&frequencyType=daily&frequency=1&endDate={endDate}&startDate={startDate}"
-response = requests.request("GET", url, headers={}, data={})
-response = response.json()['candles'] # only focus on candles part of API response
+for symbol in symbolsList:
+    # Call TD API
+    priceData = call_TD_API(symbol)
 
-# Parse response into variables
-today, yesterday, twoDaysAgo = response[-1], response[-2], response[-3]
+    # Parse priceData into variables
+    today, yesterday, twoDaysAgo = priceData[-1], priceData[-2], priceData[-3]
 
-# Check for single inside day
-insideHighs = today['high'] < yesterday['high']
-insideLows = today['low'] > yesterday['low']
+    # Check for single inside day
+    insideHighs = today['high'] < yesterday['high']
+    insideLows = today['low'] > yesterday['low']
 
-if insideHighs and insideLows:
-    pass
+    if insideHighs and insideLows:
+        # get chart
+        # send tweet
+        pass
 
-# Check for double inside days
-doubleInsideHighs = insideHighs and yesterday['high'] < twoDaysAgo['high']
-doubleInsideLows = insideLows and yesterday['low'] > twoDaysAgo['low']
+    # Check for double inside days
+    doubleInsideHighs = insideHighs and yesterday['high'] < twoDaysAgo['high']
+    doubleInsideLows = insideLows and yesterday['low'] > twoDaysAgo['low']
 
-get_chart('AAPL', 'd','l','c',0)
+    get_chart('AAPL', 'd','l','c',0)
 
