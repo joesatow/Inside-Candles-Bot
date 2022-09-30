@@ -41,14 +41,13 @@ def get_chart(ticker, period, size, chart_type,ta):
             {"ty": chart_type, "ta": ta, "p": period, "s": size}
         )
     
-    data_scrape(
-        download_chart_image, 
-        f"https://finviz.com/chart.ashx?{encoded_payload}&t={ticker}",
-        user_agent
-    )
+    url = f"https://finviz.com/chart.ashx?{encoded_payload}&t={ticker}"
+    response = finviz_request(url, user_agent)
+    download_chart_image(response, url)
 
 def finviz_request(url: str, user_agent: str) -> Response:
     response = requests.get(url, headers={"User-Agent": user_agent})
+    print(response)
     return response
 
 def download_chart_image(page_content: requests.Response, url,):
@@ -61,6 +60,4 @@ def download_chart_image(page_content: requests.Response, url,):
     with open(os.path.join("charts", file_name), "wb") as handle:
         handle.write(page_content.content)
     
-def data_scrape(scrape_func, url, user_agent):
-    response = finviz_request(url, user_agent)
-    scrape_func(response, url)
+
