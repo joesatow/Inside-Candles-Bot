@@ -2,10 +2,8 @@ import os
 import sys
 import time
 
-import json
 import requests
 from requests_oauthlib import OAuth1
-
 
 MEDIA_ENDPOINT_URL = 'https://upload.twitter.com/1.1/media/upload.json'
 POST_TWEET_URL = 'https://api.twitter.com/1.1/statuses/update.json'
@@ -67,6 +65,7 @@ class TwitterMedia(object):
     segment_id = 0
     bytes_sent = 0
     file = open(self.video_filename, 'rb')
+    print(type(file))
 
     while bytes_sent < self.total_bytes:
       chunk = file.read(4*1024*1024)

@@ -21,8 +21,8 @@ def get_chart(ticker, period, size, chart_type,ta):
     
     url = f"https://finviz.com/chart.ashx?{encoded_payload}&t={ticker}"
     response = finviz_request(url, user_agent)
-    #download_chart_image(response, url)
-    return response
+    fileName = download_chart_image(response, url)
+    return fileName
 
 def finviz_request(url: str, user_agent: str) -> Response:
     response = requests.get(url, headers={"User-Agent": user_agent})
@@ -37,3 +37,5 @@ def download_chart_image(page_content: requests.Response, url,):
 
     with open(os.path.join("charts", file_name), "wb") as handle:
         handle.write(page_content.content)
+    
+    return file_name

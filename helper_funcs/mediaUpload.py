@@ -2,10 +2,8 @@ import os
 import sys
 import time
 
-import json
 import requests
 from requests_oauthlib import OAuth1
-
 
 MEDIA_ENDPOINT_URL = 'https://upload.twitter.com/1.1/media/upload.json'
 POST_TWEET_URL = 'https://api.twitter.com/1.1/statuses/update.json'
@@ -15,9 +13,7 @@ CONSUMER_SECRET = 'nIqzC9PJRgq1qw0C55iZgUr901y6YuCXLBe1UelhOYem28NGgT'
 ACCESS_TOKEN = '1575825559556616192-5lHCMRKipHzh9KgrLTxwMEJxAcKxuk'
 ACCESS_TOKEN_SECRET = 'iniPvugA0SjXXRR5vFTEbYABrJ53Z4Anh1Ld18EAh5AFV'
 
-FILENAME = 'AAPL_1664539952.png'
 MEDIA_CATEGORY = 'dm_image'
-
 
 oauth = OAuth1(CONSUMER_KEY,
   client_secret=CONSUMER_SECRET,
@@ -151,8 +147,8 @@ class TwitterMedia(object):
     self.check_status()
 
 
-if __name__ == '__main__':
-  twitterMedia = TwitterMedia(FILENAME, MEDIA_CATEGORY)
+def uploadMedia(fileName):
+  twitterMedia = TwitterMedia(f"charts/{fileName}", MEDIA_CATEGORY)
   twitterMedia.upload_init()
   twitterMedia.upload_append()
   twitterMedia.upload_finalize()
