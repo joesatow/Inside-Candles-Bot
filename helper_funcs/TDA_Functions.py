@@ -1,3 +1,5 @@
+from ratelimit import limits, sleep_and_retry, RateLimitException
+from backoff import on_exception, expo
 import math
 import requests
 from datetime import datetime, timedelta
@@ -18,8 +20,17 @@ endDate = math.trunc(timestamp(todayMarketCloseTime)) # datetime(year, month, da
 startDate = math.trunc(timestamp(todayMarketCloseTime-timedelta(days=subtractedDays))) # subtract specified days from endDate to get startDate
 
 # TDA API call for price data
+@on_exception(expo, requests.exceptions.RequestException, max_time=60)
+@sleep_and_retry
+@limits(calls=120, period=60)
 def call_TD_API(symbol):
     url = f"https://api.tdameritrade.com/v1/marketdata/{symbol}/pricehistory?apikey=KM7SSWFJANTN4HOJIMYUGZAY1C09QWH3&periodType=month&frequencyType=daily&frequency=1&endDate={endDate}&startDate={startDate}"
     response = requests.request("GET", url, headers={}, data={})
-    response = response.json()['candles'] # only focus on candles part of API response
+    response = response.json()
+
+    if list(response.keys())[0] == "error":
+        #print("Reached max on: " + ticker[0] + ".  Trying again...")
+        raise requests.exceptions.RequestException
+
+    response = response['candles'] # only focus on candles part of API response
     return response

@@ -13,7 +13,7 @@ CONSUMER_SECRET = 'nIqzC9PJRgq1qw0C55iZgUr901y6YuCXLBe1UelhOYem28NGgT'
 ACCESS_TOKEN = '1575825559556616192-5lHCMRKipHzh9KgrLTxwMEJxAcKxuk'
 ACCESS_TOKEN_SECRET = 'iniPvugA0SjXXRR5vFTEbYABrJ53Z4Anh1Ld18EAh5AFV'
 
-MEDIA_CATEGORY = 'dm_image'
+MEDIA_CATEGORY = 'TweetImage'
 
 oauth = OAuth1(CONSUMER_KEY,
   client_secret=CONSUMER_SECRET,
@@ -38,14 +38,14 @@ class TwitterMedia(object):
     '''
     Initializes Upload
     '''
-    print('INIT')
+    #print('INIT')
 
     request_data = {
       'command': 'INIT',
       'media_type': 'image/jpeg',
       'total_bytes': self.total_bytes,
       'media_category': self.media_category,
-      'shared': True # for media reuse in DMs. See: https://dev.twitter.com/rest/direct-messages/attaching-media
+      'shared': False # for media reuse in DMs. See: https://dev.twitter.com/rest/direct-messages/attaching-media
     }
 
     req = requests.post(url=MEDIA_ENDPOINT_URL, data=request_data, auth=oauth)
@@ -53,7 +53,7 @@ class TwitterMedia(object):
 
     self.media_id = media_id
 
-    print('Media ID: %s' % str(media_id))
+    #print('Media ID: %s' % str(media_id))
 
 
   def upload_append(self):
@@ -67,7 +67,7 @@ class TwitterMedia(object):
     while bytes_sent < self.total_bytes:
       chunk = file.read(4*1024*1024)
       
-      print('APPEND')
+      #print('APPEND')
 
       request_data = {
         'command': 'APPEND',
@@ -82,23 +82,23 @@ class TwitterMedia(object):
       req = requests.post(url=MEDIA_ENDPOINT_URL, data=request_data, files=files, auth=oauth)
 
       if req.status_code < 200 or req.status_code > 299:
-        print(req.status_code)
-        print(req.text)
+        #print(req.status_code)
+        #print(req.text)
         sys.exit(0)
 
       segment_id = segment_id + 1
       bytes_sent = file.tell()
 
-      print('%s of %s bytes uploaded' % (str(bytes_sent), str(self.total_bytes)))
+      #print('%s of %s bytes uploaded' % (str(bytes_sent), str(self.total_bytes)))
 
-    print('Upload chunks complete')
+    #print('Upload chunks complete')
 
 
   def upload_finalize(self):
     '''
     Finalizes uploads and starts video processing
     '''
-    print('FINALIZE')
+    #print('FINALIZE')
 
     request_data = {
       'command': 'FINALIZE',
@@ -106,7 +106,7 @@ class TwitterMedia(object):
     }
 
     req = requests.post(url=MEDIA_ENDPOINT_URL, data=request_data, auth=oauth)
-    print(req.json())
+    #print(req.json())
 
     self.processing_info = req.json().get('processing_info', None)
     self.check_status()
@@ -121,7 +121,7 @@ class TwitterMedia(object):
 
     state = self.processing_info['state']
 
-    print('Media processing status is %s ' % state)
+    #print('Media processing status is %s ' % state)
 
     if state == u'succeeded':
       return
@@ -131,10 +131,10 @@ class TwitterMedia(object):
 
     check_after_secs = self.processing_info['check_after_secs']
     
-    print('Checking after %s seconds' % str(check_after_secs))
+    #print('Checking after %s seconds' % str(check_after_secs))
     time.sleep(check_after_secs)
 
-    print('STATUS')
+    #print('STATUS')
 
     request_params = {
       'command': 'STATUS',
@@ -152,3 +152,4 @@ def uploadMedia(fileName):
   twitterMedia.upload_init()
   twitterMedia.upload_append()
   twitterMedia.upload_finalize()
+  return str(twitterMedia.media_id) 

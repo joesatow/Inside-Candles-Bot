@@ -2,29 +2,28 @@ from helper_funcs.TDA_Functions import call_TD_API
 from helper_funcs.downloadFunctions import get_chart
 from helper_funcs.twitterFunctions import sendTweet
 from helper_funcs.mediaUpload import uploadMedia
+from helper_funcs.symbolsList import getSymbols
+from helper_funcs.dataFunctions import analyzeData
+from tqdm import tqdm
+
 # List of stock symbols to scan.  All optionable. Case sensitive.
-symbolsList = ['AAPL']
+symbolsList = getSymbols()
 
-for symbol in symbolsList:
+# Tracker variable to keep count of results found
+countFound = 0
+
+# Analyze every stock, upload to twitter if anything found
+for symbol in tqdm(symbolsList, desc="Scanning symbols"):
     # Call TD API
-    # priceData = call_TD_API(symbol)
+    priceData = call_TD_API(symbol)
 
-    # # Parse priceData into variables
-    # today, yesterday, twoDaysAgo = priceData[-1], priceData[-2], priceData[-3]
+    # Check for insides 
+    results = analyzeData(priceData)
 
-    # # Check for single inside day
-    # insideHighs = today['high'] < yesterday['high']
-    # insideLows = today['low'] > yesterday['low']
+    # if any insides, get chart and upload to twit!
+    if results['insidesFound']:
+        finvizChartFileName = get_chart(symbol, 'd','m','c',0)
+        mediaID = uploadMedia(finvizChartFileName)
+        sendTweet(results['tweetText'], mediaID)
 
-    # if insideHighs and insideLows:
-    #     # get chart
-    #     # send tweet
-    #     pass
-
-    # # Check for double inside days
-    # doubleInsideHighs = insideHighs and yesterday['high'] < twoDaysAgo['high']
-    # doubleInsideLows = insideLows and yesterday['low'] > twoDaysAgo['low']
-
-    finvizChartFileName = get_chart('AAPL', 'd','l','c',0)
-    mediaKeys = uploadMedia(finvizChartFileName)
-    #sendTweet(finvizChartResponse.content)
+print("Done. " + "Nothing found." if countFound==0 else f"Found {countFound} cases.")    
