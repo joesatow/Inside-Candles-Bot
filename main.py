@@ -16,9 +16,11 @@ countFound = 0
 for symbol in tqdm(symbolsList, desc="Scanning symbols"):
     # Call TD API
     priceData = call_TD_API(symbol)
-
+    for row in priceData:
+        print()
+    
     # Check for insides 
-    results = analyzeData(priceData)
+    results = analyzeData(priceData, symbol)
 
     # if any insides, get chart and upload to twit!
     if results['insidesFound']:

@@ -1,4 +1,4 @@
-from ratelimit import limits, sleep_and_retry, RateLimitException
+from ratelimit import limits, sleep_and_retry
 from backoff import on_exception, expo
 import math
 import requests
