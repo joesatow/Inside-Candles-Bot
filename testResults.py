@@ -1,5 +1,3 @@
-import json
-
 falseSingleInsidesAAPL = [ 
     {
         'open': 147.64, 
