@@ -8,8 +8,8 @@ from requests_oauthlib import OAuth1
 MEDIA_ENDPOINT_URL = 'https://upload.twitter.com/1.1/media/upload.json'
 POST_TWEET_URL = 'https://api.twitter.com/1.1/statuses/update.json'
 
-CONSUMER_KEY = os.environ['consumer_key']
-CONSUMER_SECRET = os.environ['consumer_secret']
+CONSUMER_KEY = os.environ['api_key']
+CONSUMER_SECRET = os.environ['api_key_secret']
 ACCESS_TOKEN = os.environ['access_token']
 ACCESS_TOKEN_SECRET = os.environ['access_token_secret']
 

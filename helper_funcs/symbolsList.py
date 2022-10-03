@@ -1,4 +1,4 @@
-symbolsList = ['AAPL','AMD','NOC']
+symbolsList = ['AAPL','AMD','NOC','IBM']
 
 def getSymbols():
     return symbolsList

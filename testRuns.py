@@ -22,4 +22,4 @@ for idx, symbol in enumerate(symbolsList):
         mediaID = uploadMedia(finvizChartFileName)
         sendTweet(results['tweetText'], mediaID)
 
-print("Done. " + ("Nothing found." if countFound==0 else f"Found {countFound} cases."))    
+print("Done. " + ("Nothing found." if countFound==0 else f"Found {countFound} cases."))
