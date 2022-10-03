@@ -20,5 +20,4 @@ def sendTweet(tweetText, mediaID):
         }
     })
 
-    response = requests.request("POST", url, headers=headers, data=payload)
-    print(response.json())
+    requests.request("POST", url, headers=headers, data=payload)
