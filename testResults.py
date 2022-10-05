@@ -6,6 +6,14 @@ falseSingleInsidesAAPL = [
         'close': 149.84, 
         'volume': 146691387, 
         'datetime': 1664341200000
+    },
+    {
+        'open': 147.64, 
+        'high': 150.6414, 
+        'low': 144.84, 
+        'close': 149.84, 
+        'volume': 146691387, 
+        'datetime': 1664341200000
     }, 
     {
         'open': 146.1, 
@@ -26,6 +34,14 @@ falseSingleInsidesAAPL = [
 ]
 
 trueSingleInsidesAAPL = [
+    {
+        'open': 147.64, 
+        'high': 150.6414, 
+        'low': 144.84, 
+        'close': 149.84, 
+        'volume': 146691387, 
+        'datetime': 1664341200000
+    },
     {
         "open": 147.64, 
         "high": 150.6414, 
@@ -54,6 +70,14 @@ trueSingleInsidesAAPL = [
 
 falseDoubleInsidesAAPL = [
     {
+        'open': 147.64, 
+        'high': 150.6414, 
+        'low': 144.84, 
+        'close': 149.84, 
+        'volume': 146691387, 
+        'datetime': 1664341200000
+    },
+    {
         "open": 147.64, 
         "high": 150.6414, 
         "low": 144.84, 
@@ -80,6 +104,14 @@ falseDoubleInsidesAAPL = [
 ]
 
 trueDoubleInsidesAAPL = [
+    {
+        'open': 147.64, 
+        'high': 150.6414, 
+        'low': 144.84, 
+        'close': 149.84, 
+        'volume': 146691387, 
+        'datetime': 1664341200000
+    },
     {
         "open": 147.64, 
         "high": 150.6414, 
@@ -108,6 +140,14 @@ trueDoubleInsidesAAPL = [
 
 falseSingleInsidesBABA = [
     {
+        'open': 147.64, 
+        'high': 150.6414, 
+        'low': 144.84, 
+        'close': 149.84, 
+        'volume': 146691387, 
+        'datetime': 1664341200000
+    },
+    {
         "open": 147.64, 
         "high": 150.6414, 
         "low": 144.84, 
@@ -134,6 +174,14 @@ falseSingleInsidesBABA = [
 ]
 
 trueSingleInsidesBABA = [
+    {
+        'open': 147.64, 
+        'high': 150.6414, 
+        'low': 144.84, 
+        'close': 149.84, 
+        'volume': 146691387, 
+        'datetime': 1664341200000
+    },
     {
         "open": 147.64, 
         "high": 150.6414, 
@@ -162,6 +210,14 @@ trueSingleInsidesBABA = [
 
 falseDoubleInsidesBABA = [
     {
+        'open': 147.64, 
+        'high': 150.6414, 
+        'low': 144.84, 
+        'close': 149.84, 
+        'volume': 146691387, 
+        'datetime': 1664341200000
+    },
+    {
         "open": 147.64, 
         "high": 150.6414, 
         "low": 144.84, 
@@ -188,6 +244,14 @@ falseDoubleInsidesBABA = [
 ]
 
 trueDoubleInsidesBABA = [
+    {
+        'open': 147.64, 
+        'high': 150.6414, 
+        'low': 144.84, 
+        'close': 149.84, 
+        'volume': 146691387, 
+        'datetime': 1664341200000
+    },
     {
         "open": 147.64, 
         "high": 150.6414, 

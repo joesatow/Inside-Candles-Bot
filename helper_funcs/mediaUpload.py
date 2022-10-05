@@ -148,7 +148,7 @@ class TwitterMedia(object):
 
 
 def uploadMedia(fileName):
-  twitterMedia = TwitterMedia(f"charts/{fileName}", MEDIA_CATEGORY)
+  twitterMedia = TwitterMedia(f"/Library/WebServer/Documents/Inside-Candles-Bot/charts/{fileName}", MEDIA_CATEGORY)
   twitterMedia.upload_init()
   twitterMedia.upload_append()
   twitterMedia.upload_finalize()

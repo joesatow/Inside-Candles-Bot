@@ -6,7 +6,10 @@ def analyzeData(priceData, symbol):
     try:
         today, yesterday, twoDaysAgo, threeDaysAgo = priceData[-1], priceData[-2], priceData[-3], priceData[-4]
     except:
+        print("price data should be below here")
+        print("problematic symbol: " + symbol)
         print(priceData)
+        print("price data should be above here")
         raise Exception("error found")
 
     # Check for single inside day

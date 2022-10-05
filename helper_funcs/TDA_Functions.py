@@ -6,7 +6,7 @@ import os
 from datetime import datetime, timedelta
 
 # number of days to subtract from current day to use with getting startDate
-subtractedDays = 5
+subtractedDays = 10
 
 # TD API key 
 TD_API_Key = os.environ['td_api_key']
