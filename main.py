@@ -25,6 +25,6 @@ for symbol in tqdm(symbolsList, desc="Scanning symbols"):
         countFound += 1
         finvizChartFileName = get_chart(symbol, 'd','m','c',0)
         mediaID = uploadMedia(finvizChartFileName)
-        sendTweet(results['tweetText'], mediaID)
+        #sendTweet(results['tweetText'], mediaID)
 
 print("Done. " + ("Nothing found." if countFound==0 else f"Found {countFound} cases."))

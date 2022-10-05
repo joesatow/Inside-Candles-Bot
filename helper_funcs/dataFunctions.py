@@ -3,7 +3,11 @@ def analyzeData(priceData, symbol):
     tweetText = ""
 
      # Parse priceData into variables
-    today, yesterday, twoDaysAgo, threeDaysAgo = priceData[-1], priceData[-2], priceData[-3], priceData[-4]
+    try:
+        today, yesterday, twoDaysAgo, threeDaysAgo = priceData[-1], priceData[-2], priceData[-3], priceData[-4]
+    except:
+        print(priceData)
+        raise Exception("error found")
 
     # Check for single inside day
     insideHighs = today['high'] < yesterday['high']
@@ -23,9 +27,9 @@ def analyzeData(priceData, symbol):
     elif doubleInsideHighs and doubleInsideLows: 
         insidesFound = True
         tweetText = f"Double inside candles found for ${symbol}"
-    elif insideHighs and insideLows: 
-        insidesFound = True
-        tweetText = f"Single inside candle found for ${symbol}"
+    # elif insideHighs and insideLows: 
+    #     insidesFound = True
+    #     tweetText = f"Single inside candle found for ${symbol}"
 
     resultsObject = {
         "insidesFound": insidesFound,
