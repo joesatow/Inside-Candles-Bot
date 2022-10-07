@@ -45,12 +45,6 @@ oauth_token_VALUE = percentEncode(access_token)
 oauth_version_KEY = percentEncode("oauth_version")
 oauth_version_VALUE = percentEncode("1.0")
 
-include_entities_KEY = percentEncode("include_entities")
-include_entities_VALUE = percentEncode("true")
-
-status_KEY = percentEncode("status")
-status_VALUE = percentEncode("Hello Ladies + Gentlemen, a signed OAuth request!")
-
 # Build parameter string
 parameterString = oauth_consumer_key_KEY + '=' + oauth_consumer_key_VALUE + '&'
 parameterString += oauth_nonce_KEY + '=' + oauth_nonce_VALUE + '&'
