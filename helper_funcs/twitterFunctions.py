@@ -2,7 +2,7 @@ import requests
 import json
 from helper_funcs.twitterAuth import getAuthHeader
 
-authorizationHeader = getAuthHeader
+authorizationHeader = getAuthHeader()
 url = "https://api.twitter.com/2/tweets"
 headers = {
   'Authorization': authorizationHeader,
