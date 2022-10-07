@@ -4,14 +4,15 @@ import time
 
 import requests
 from requests_oauthlib import OAuth1
+from helper_funcs.API_keys import getKey
 
 MEDIA_ENDPOINT_URL = 'https://upload.twitter.com/1.1/media/upload.json'
 POST_TWEET_URL = 'https://api.twitter.com/1.1/statuses/update.json'
 
-CONSUMER_KEY = os.environ['api_key']
-CONSUMER_SECRET = os.environ['api_key_secret']
-ACCESS_TOKEN = os.environ['access_token']
-ACCESS_TOKEN_SECRET = os.environ['access_token_secret']
+CONSUMER_KEY = getKey('api_key')
+CONSUMER_SECRET = getKey('api_key_secret')
+ACCESS_TOKEN = getKey('access_token')
+ACCESS_TOKEN_SECRET = getKey('access_token_secret')
 
 MEDIA_CATEGORY = 'TweetImage'
 

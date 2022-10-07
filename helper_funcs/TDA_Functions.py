@@ -4,12 +4,13 @@ import math
 import requests
 import os
 from datetime import datetime, timedelta
+from helper_funcs.API_keys import getKey
 
 # number of days to subtract from current day to use with getting startDate
 subtractedDays = 10
 
 # TD API key 
-TD_API_Key = os.environ['td_api_key']
+TD_API_Key = getKey('td_api_key')
 
 def timestamp(dt):
     epoch = datetime.utcfromtimestamp(0)
