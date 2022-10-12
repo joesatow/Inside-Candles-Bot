@@ -9,8 +9,8 @@ from helper_funcs.API_keys import getKey
 MEDIA_ENDPOINT_URL = 'https://upload.twitter.com/1.1/media/upload.json'
 POST_TWEET_URL = 'https://api.twitter.com/1.1/statuses/update.json'
 
-CONSUMER_KEY = getKey('api_key')
-CONSUMER_SECRET = getKey('api_key_secret')
+CONSUMER_KEY = getKey('consumer_key')
+CONSUMER_SECRET = getKey('consumer_key_secret')
 ACCESS_TOKEN = getKey('access_token')
 ACCESS_TOKEN_SECRET = getKey('access_token_secret')
 
