@@ -9,7 +9,8 @@ from tqdm import tqdm
 # List of stock symbols to scan.  All optionable. Case sensitive.
 symbolsList = getSymbols()
 
-# Tracker variable to keep count of results found
+# Tracker variables to keep count of how many checked and results found
+countChecked = 0
 countFound = 0
 
 # Analyze every stock, upload to twitter if anything found
@@ -26,5 +27,7 @@ for symbol in tqdm(symbolsList, desc="Scanning symbols"):
         finvizChartFileName = get_chart(symbol, 'd','m','c',0)
         mediaID = uploadMedia(finvizChartFileName)
         sendTweet(results['tweetText'], mediaID)
+    
+    countChecked += 1
 
-print("Done. " + ("Nothing found." if countFound==0 else f"Found {countFound} cases."))
+print(f"Done. Checked {countChecked} stocks. " + ("Nothing found." if countFound==0 else f"Found {countFound} cases."))
