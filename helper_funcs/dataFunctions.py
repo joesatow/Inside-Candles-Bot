@@ -2,7 +2,7 @@ def analyzeData(priceData, symbol):
     insidesFound = False
     tweetText = ""
 
-     # Parse priceData into variables
+    # Parse priceData into variables
     try:
         today, yesterday, twoDaysAgo, threeDaysAgo = priceData[-1], priceData[-2], priceData[-3], priceData[-4]
     except:
