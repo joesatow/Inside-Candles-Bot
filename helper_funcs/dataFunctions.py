@@ -1,28 +1,60 @@
-def analyzeData(priceData, symbol):
+import datetime
+import math
+
+def getCandles(data, tf):
+    index = -1
+    currentHigh = 0
+    currentLow = math.inf
+    candles = []
+
+    if tf == '1d':
+        return data
+
+    while len(candles) < 4:
+        currentItem = data[index]
+        time = int(currentItem['datetime'])/1000
+        dateConvertedTime = datetime.datetime.fromtimestamp(time).strftime('%H:%M')
+
+        currentHigh = max(currentHigh, currentItem['high'])
+        currentLow = min(currentLow, currentItem['low'])
+        
+        if tf == '1h': 
+            if dateConvertedTime.split(":")[1] == '00':
+                candles.append({"low": currentLow,"high": currentHigh})
+                currentHigh = 0
+                currentLow = math.inf
+                
+        if tf == '4h':
+            if dateConvertedTime == '13:00' or dateConvertedTime == '09:30':
+                candles.append({"low": currentLow,"high": currentHigh})
+                currentHigh = 0
+                currentLow = math.inf
+            
+        index -= 1
+    
+    return candles
+
+def analyzeData(priceData, symbol, timeframe):
     insidesFound = False
     tweetText = ""
 
-     # Parse priceData into variables
-    try:
-        today, yesterday, twoDaysAgo, threeDaysAgo = priceData[-1], priceData[-2], priceData[-3], priceData[-4]
-    except:
-        print("price data should be below here")
-        print("problematic symbol: " + symbol)
-        print(priceData)
-        print("price data should be above here")
-        raise Exception("error found")
+    # Get candles list
+    candles = getCandles(priceData, timeframe)
+
+    # Parse priceData into variables
+    mostRecentCandle, secondMostRecentCandle, thirdMostRecentCandle, fourthMostRecentCandle = candles[-1], candles[-2], candles[-3], candles[-4]
 
     # Check for single inside day
-    insideHighs = today['high'] < yesterday['high']
-    insideLows = today['low'] > yesterday['low']
+    insideHighs = mostRecentCandle['high'] < secondMostRecentCandle['high']
+    insideLows = mostRecentCandle['low'] > secondMostRecentCandle['low']
 
     # Check for double inside days
-    doubleInsideHighs = insideHighs and yesterday['high'] < twoDaysAgo['high']
-    doubleInsideLows = insideLows and yesterday['low'] > twoDaysAgo['low']
+    doubleInsideHighs = insideHighs and secondMostRecentCandle['high'] < thirdMostRecentCandle['high']
+    doubleInsideLows = insideLows and secondMostRecentCandle['low'] > thirdMostRecentCandle['low']
 
     # Check for triple inside days
-    tripleInsideHighs = doubleInsideHighs and twoDaysAgo['high'] < threeDaysAgo['high']
-    tripleInsideLows = doubleInsideLows and twoDaysAgo['low'] > threeDaysAgo['low']
+    tripleInsideHighs = doubleInsideHighs and thirdMostRecentCandle['high'] < fourthMostRecentCandle['high']
+    tripleInsideLows = doubleInsideLows and thirdMostRecentCandle['low'] > fourthMostRecentCandle['low']
 
     if tripleInsideHighs and tripleInsideLows:
         insidesFound = True

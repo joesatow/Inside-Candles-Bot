@@ -4,7 +4,12 @@ from helper_funcs.mediaUpload import uploadMedia
 from helper_funcs.TDA_Functions import call_TD_API
 from helper_funcs.symbolsList import getSymbols
 from helper_funcs.dataFunctions import analyzeData
+from helper_funcs.commandArgs import getArgs
 from tqdm import tqdm
+
+# Get command line args
+args = getArgs()
+timeframeFlag, sendTweetFlag = args.timeframe, args.sendtweet
 
 # List of stock symbols to scan.  All optionable. Case sensitive.
 symbolsList = getSymbols()
@@ -16,17 +21,18 @@ countFound = 0
 # Analyze every stock, upload to twitter if anything found
 for symbol in tqdm(symbolsList, desc="Scanning symbols"):
     # Call TD API
-    priceData = call_TD_API(symbol)
+    priceData = call_TD_API(symbol, timeframeFlag)
 
     # Check for inside candles
-    results = analyzeData(priceData, symbol) 
+    results = analyzeData(priceData, symbol, timeframeFlag) 
 
     # if any insides, get chart and upload to twit!
     if results['insidesFound']:
         countFound += 1
         finvizChartFileName = get_chart(symbol, 'd','m','c',0)
-        mediaID = uploadMedia(finvizChartFileName)
-        sendTweet(results['tweetText'], mediaID)
+        if sendTweetFlag:
+            mediaID = uploadMedia(finvizChartFileName)
+            sendTweet(results['tweetText'], mediaID)
     
     countChecked += 1
 

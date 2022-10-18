@@ -1,15 +1,11 @@
-from ratelimit import limits, sleep_and_retry
-from backoff import on_exception, expo
-import math
 import requests
+import datetime
 from datetime import datetime, timedelta
-from helper_funcs.API_keys import getKey
+import math
+key = "KM7SSWFJANTN4HOJIMYUGZAY1C09QWH3"
 
 # number of days to subtract from current day to use with getting startDate
 subtractedDays = 10
-
-# TD API key 
-TD_API_Key = getKey('td_api_key')
 
 def timestamp(dt):
     epoch = datetime.utcfromtimestamp(0)
@@ -23,15 +19,8 @@ todayMarketCloseTime = datetime(currentYear,currentMonth,currentDay,20,1,0)
 endDate = math.trunc(timestamp(todayMarketCloseTime)) # datetime(year, month, day, hour, minute, second)
 startDate = math.trunc(timestamp(todayMarketCloseTime-timedelta(days=subtractedDays))) # subtract specified days from endDate to get startDate
 
-# TDA API call for price data
-@on_exception(expo, requests.exceptions.RequestException, max_time=60)
-@sleep_and_retry
-@limits(calls=120, period=60)
-def call_TD_API(symbol, timeframe):
-    if timeframe == '1d':
-        url = f"https://api.tdameritrade.com/v1/marketdata/{symbol}/pricehistory?apikey={TD_API_Key}&periodType=month&frequencyType=daily&frequency=1&endDate={endDate}&startDate={startDate}"
-    if timeframe == '4h' or timeframe == '1h':
-        url = f"https://api.tdameritrade.com/v1/marketdata/{symbol}/pricehistory?apikey={TD_API_Key}&periodType=day&frequencyType=minute&frequency=30&endDate={endDate}&startDate={startDate}&needExtendedHoursData=False"
+def call_TD_API():
+    url = f"https://api.tdameritrade.com/v1/marketdata/AAPL/pricehistory?apikey={key}&periodType=day&frequencyType=minute&frequency=30&endDate={endDate}&startDate={startDate}&needExtendedHoursData=False"
     response = requests.request("GET", url, headers={}, data={})
     response = response.json()
 
@@ -41,3 +30,13 @@ def call_TD_API(symbol, timeframe):
 
     response = response['candles'] # only focus on candles part of API response
     return response
+
+currentItem = call_TD_API()[-1]
+
+time = int(currentItem['datetime'])/1000
+dateConvertedTime = datetime.fromtimestamp(time).strftime('%H:%M')
+
+with open('/Library/WebServer/Documents/Inside-Candles-Bot/tests/results.txt', 'a') as f:
+    str = 'time: ' + datetime.now().strftime('%H:%M') + ", candle time: " + dateConvertedTime + ', low: ' + str(currentItem['low']) + ', high: ' + str(currentItem['high']) + ', open: ' + str(currentItem['open']) + ', close: ' + str(currentItem['close']) + ', volume: ' + str(currentItem['volume'])
+    f.write(str)
+    f.write('\n')
