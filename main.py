@@ -29,7 +29,7 @@ for symbol in tqdm(symbolsList, desc="Scanning symbols"):
     # if any insides, get chart and upload to twit!
     if results['insidesFound']:
         countFound += 1
-        finvizChartFileName = get_chart(symbol, 'd','m','c',0)
+        finvizChartFileName = get_chart(symbol, timeframeFlag)
         if sendTweetFlag:
             mediaID = uploadMedia(finvizChartFileName)
             sendTweet(results['tweetText'], mediaID)
