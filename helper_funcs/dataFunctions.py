@@ -1,6 +1,8 @@
 import datetime
 import math
 
+acceptableHours = ['09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30']
+
 def getCandles(data, tf):
     index = -1
     currentHigh = 0
@@ -14,19 +16,22 @@ def getCandles(data, tf):
         currentItem = data[index]
         time = int(currentItem['datetime'])/1000
         dateConvertedTime = datetime.datetime.fromtimestamp(time).strftime('%H:%M')
-
+        if dateConvertedTime not in acceptableHours:
+            index -= 1
+            continue 
+        
         currentHigh = max(currentHigh, currentItem['high'])
         currentLow = min(currentLow, currentItem['low'])
         
         if tf == '1h': 
             if dateConvertedTime.split(":")[1] == '00':
-                candles.append({"low": currentLow,"high": currentHigh})
+                candles.insert(0,{"low": currentLow,"high": currentHigh})
                 currentHigh = 0
                 currentLow = math.inf
                 
         if tf == '4h':
             if dateConvertedTime == '13:00' or dateConvertedTime == '09:30':
-                candles.append({"low": currentLow,"high": currentHigh})
+                candles.insert(0,{"low": currentLow,"high": currentHigh})
                 currentHigh = 0
                 currentLow = math.inf
             
