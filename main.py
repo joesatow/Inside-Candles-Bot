@@ -30,9 +30,10 @@ for symbol in tqdm(symbolsList, desc="Scanning symbols"):
     if results['insidesFound']:
         countFound += 1
         finvizChartFileName = get_chart(symbol, timeframeFlag)
-        if sendTweetFlag:
-            mediaID = uploadMedia(finvizChartFileName)
-            sendTweet(results['tweetText'], mediaID)
+        if countFound < 3:
+            if sendTweetFlag:
+                mediaID = uploadMedia(finvizChartFileName)
+                sendTweet(results['tweetText'], mediaID)
     
     countChecked += 1
 
