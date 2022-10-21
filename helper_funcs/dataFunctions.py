@@ -30,7 +30,7 @@ def getCandles(data, tf):
                 currentLow = math.inf
                 
         if tf == '4h':
-            if dateConvertedTime == '13:00' or dateConvertedTime == '09:30':
+            if dateConvertedTime == '12:45' or dateConvertedTime == '09:30':
                 candles.insert(0,{"low": currentLow,"high": currentHigh})
                 currentHigh = 0
                 currentLow = math.inf

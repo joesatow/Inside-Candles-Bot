@@ -52,4 +52,4 @@ def download_chart_image(page_content: requests.Response, url,):
     
     return file_name
 
-get_chart('aapl', '4h')
+get_chart('AAPL', '4h')

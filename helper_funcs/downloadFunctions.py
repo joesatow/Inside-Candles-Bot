@@ -46,7 +46,7 @@ def download_chart_image(page_content: requests.Response, url,):
     """ Downloads a .png image of a chart into the "charts" folder. """
     file_name = f"{url.split('s=')[1].split('&')[0]}_{int(time.time())}.png"
 
-    with open(os.path.join("/Library/WebServer/Documents/charts/test-charts", file_name), "wb") as handle:
+    with open(os.path.join("/Library/WebServer/Documents/charts", file_name), "wb") as handle:
         handle.write(page_content.content)
     
     return file_name

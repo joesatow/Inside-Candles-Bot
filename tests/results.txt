@@ -2067,3 +2067,4 @@ time: 15:04, candle time: 14:30, low: 142.65, high: 143.32, open: 142.84, close:
 time: 15:05, candle time: 14:30, low: 142.65, high: 143.32, open: 142.84, close: 142.98, volume: 2031817
 time: 15:06, candle time: 14:30, low: 142.65, high: 143.32, open: 142.84, close: 142.96, volume: 2115328
 time: 15:07, candle time: 14:30, low: 142.65, high: 143.32, open: 142.84, close: 143.0376, volume: 2196685
+time: 15:08, candle time: 14:30, low: 142.65, high: 143.32, open: 142.84, close: 143.09, volume: 2325916
