@@ -20,7 +20,7 @@ endDate = math.trunc(timestamp(todayMarketCloseTime)) # datetime(year, month, da
 startDate = math.trunc(timestamp(todayMarketCloseTime-timedelta(days=subtractedDays))) # subtract specified days from endDate to get startDate
 
 def call_TD_API():
-    url = f"https://api.tdameritrade.com/v1/marketdata/AAPL/pricehistory?apikey={key}&periodType=day&frequencyType=minute&frequency=30&endDate={endDate}&startDate={startDate}&needExtendedHoursData=False"
+    url = f"https://api.tdameritrade.com/v1/marketdata/AAPL/pricehistory?apikey={key}&periodType=day&frequencyType=minute&frequency=15&endDate={endDate}&startDate={startDate}&needExtendedHoursData=False"
     response = requests.request("GET", url, headers={}, data={})
     response = response.json()
 

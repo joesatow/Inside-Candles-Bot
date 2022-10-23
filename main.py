@@ -21,6 +21,7 @@ countFound = 0
 # Analyze every stock, upload to twitter if anything found
 for symbol in tqdm(symbolsList, desc="Scanning symbols"):
     # Call TD API
+    #### Based on timeframeFlag, adjust endTime in API call to last time you want.
     priceData = call_TD_API(symbol, timeframeFlag)
 
     # Check for inside candles
