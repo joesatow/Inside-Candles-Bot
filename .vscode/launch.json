@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "main.py",
             "console": "integratedTerminal",
-            "args": ["-tf", "1w","-st","n"],
+            "args": ["-tf", "1h","-st","n"],
             "justMyCode": true
         }
     ]

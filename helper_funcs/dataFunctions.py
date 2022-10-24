@@ -19,6 +19,7 @@ def getCandles(data, tf):
         currentItem = data[index]
         time = int(currentItem['datetime'])/1000
         dateConvertedTime = datetime.datetime.fromtimestamp(time).strftime('%H:%M')
+        
         if dateConvertedTime not in acceptableHours:
             index -= 1
             continue 
@@ -28,6 +29,7 @@ def getCandles(data, tf):
         
         if tf == '1h': 
             if dateConvertedTime.split(":")[1] == '00':
+                #print(dateConvertedTime, currentLow, currentHigh)
                 candles.insert(0,{"low": currentLow,"high": currentHigh})
                 currentHigh = 0
                 currentLow = math.inf

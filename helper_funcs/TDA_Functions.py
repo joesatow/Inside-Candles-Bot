@@ -16,7 +16,7 @@ currentYear = datetime.now().year
 currentMonth = datetime.now().month
 currentDay = datetime.now().day
 currentHour = datetime.now().time().hour
-currentTime = datetime(currentYear,currentMonth,currentDay,currentHour,0) # datetime(year, month, day, hour, minute, second)
+currentTime = datetime(currentYear,currentMonth,currentDay,currentHour+4,0) # Add 4 because default timezone is GMT
 endDate = math.trunc(timestamp(currentTime)) 
 
 # TDA API call for price data
@@ -31,8 +31,14 @@ def call_TD_API(symbol, timeframe):
     elif timeframe == '4h':
         subtractedDays = 4
         startDate = math.trunc(timestamp(currentTime-timedelta(days=subtractedDays)))
+        if currentHour == 13:
+            endDate = math.trunc(timestamp(datetime(currentYear,currentMonth,currentDay,currentHour+3,30))) # 4 hour time difference GMT to EST. for midday scan, want last candle to be starting at 12:30
+        else:
+            endDate = math.trunc(timestamp(currentTime))
         url = f"https://api.tdameritrade.com/v1/marketdata/{symbol}/pricehistory?apikey={TD_API_Key}&periodType=day&frequencyType=minute&frequency=15&endDate={endDate}&startDate={startDate}&needExtendedHoursData=false"
     elif timeframe == '1h':
+        # 4 hour time difference from GMT to EST.  but we cant 15 mins beforethat since XX:45 will be the last cacndle we want - hence +3 hours vs 4, and minute 45.
+        endDate = math.trunc(timestamp(datetime(currentYear,currentMonth,currentDay,currentHour+3,45))) 
         subtractedDays = 1
         startDate = math.trunc(timestamp(currentTime-timedelta(days=subtractedDays)))
         url = f"https://api.tdameritrade.com/v1/marketdata/{symbol}/pricehistory?apikey={TD_API_Key}&periodType=day&frequencyType=minute&frequency=15&endDate={endDate}&startDate={startDate}&needExtendedHoursData=false"
