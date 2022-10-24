@@ -9,8 +9,8 @@ from user_agent import generate_user_agent
 sc_cookie = getKey("sc_cookie")
 user_agent = generate_user_agent()
 
-# [0] = Daily, [1] = 4h, [2] = 1h
-iValues = ['p55738127392', 'p57289512688', 'p23851798625']
+# [0] = Daily, [1] = 4h, [2] = 1h, [3] = 1w
+iValues = ['p55738127392', 'p57289512688', 'p23851798625', 'p57719994331']
 
 def get_chart(symbol, tf):
     if tf == '1d':
@@ -19,14 +19,17 @@ def get_chart(symbol, tf):
         selector = 1
     if tf == '1h':
         selector = 2
+    if tf == '1w':
+        selector = 3
 
     millisecondsEpoch = str(int(time.time()*1000))
 
-    # [0] = Daily, [1] = 4h, [2] = 1h
+    # [0] = Daily, [1] = 4h, [2] = 1h, [3] = 1w
     payloadObjects = [
         {"s": symbol, "p": "D", "b": "6", "g": '0', 'i': iValues[selector], 'r': millisecondsEpoch},
-        {"s": symbol, "p:": "195", "b": "6", "g": "0", "i": iValues[selector], 'r': millisecondsEpoch},
-        {"s": symbol, "p:": "60", "b": "6", "g": "0", "i": iValues[selector], 'r': millisecondsEpoch}
+        {"s": symbol, "p": "195", "b": "6", "g": "0", "i": iValues[selector], 'r': millisecondsEpoch},
+        {"s": symbol, "p": "60", "b": "6", "g": "0", "i": iValues[selector], 'r': millisecondsEpoch},
+        {"s": symbol, "p": "W", "b": "6", "g": "0", "i": iValues[selector], 'r': millisecondsEpoch}
     ]
 
     encoded_payload = urlencode(

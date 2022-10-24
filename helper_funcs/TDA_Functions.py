@@ -30,8 +30,11 @@ startDate = math.trunc(timestamp(todayMarketCloseTime-timedelta(days=subtractedD
 def call_TD_API(symbol, timeframe):
     if timeframe == '1d':
         url = f"https://api.tdameritrade.com/v1/marketdata/{symbol}/pricehistory?apikey={TD_API_Key}&periodType=month&frequencyType=daily&frequency=1&endDate={endDate}&startDate={startDate}"
-    if timeframe == '4h' or timeframe == '1h':
+    elif timeframe == '4h' or timeframe == '1h':
         url = f"https://api.tdameritrade.com/v1/marketdata/{symbol}/pricehistory?apikey={TD_API_Key}&periodType=day&frequencyType=minute&frequency=15&endDate={endDate}&startDate={startDate}&needExtendedHoursData=false"
+    else:
+        url = f"https://api.tdameritrade.com/v1/marketdata/{symbol}/pricehistory?apikey={TD_API_Key}&periodType=month&frequencyType=weekly&frequency=1&endDate={endDate}&startDate={math.trunc(timestamp(todayMarketCloseTime-timedelta(days=40)))}"
+
     response = requests.request("GET", url, headers={}, data={})
     response = response.json()
 

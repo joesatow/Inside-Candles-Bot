@@ -3,7 +3,7 @@ import sys
 
 sys.tracebacklimit = 0
 
-acceptableTimeframeInputs = ['1d','4h','1h']
+acceptableTimeframeInputs = ['1d','4h','1h','1w']
 acceptableSendTweetInputs = ['y','n','yes','no']
 
 parser = argparse.ArgumentParser()

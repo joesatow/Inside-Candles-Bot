@@ -12,6 +12,9 @@ def getCandles(data, tf):
     if tf == '1d':
         return data
 
+    if tf == '1w':
+        return data
+
     while len(candles) < 4:
         currentItem = data[index]
         time = int(currentItem['datetime'])/1000
@@ -61,12 +64,21 @@ def analyzeData(priceData, symbol, timeframe):
     tripleInsideHighs = doubleInsideHighs and thirdMostRecentCandle['high'] < fourthMostRecentCandle['high']
     tripleInsideLows = doubleInsideLows and thirdMostRecentCandle['low'] > fourthMostRecentCandle['low']
 
+    if timeframe == '1d':
+        text = 'daily'
+    elif timeframe == '1w':
+        text = 'weekly'
+    elif timeframe == '4h':
+        text = '4h'
+    elif timeframe == '1h':
+        text = 'hourly'
+
     if tripleInsideHighs and tripleInsideLows:
         insidesFound = True
-        tweetText = f"TRIPLE inside candles found for ${symbol}"
+        tweetText = f"TRIPLE inside {text} candles found for ${symbol}"
     elif doubleInsideHighs and doubleInsideLows: 
         insidesFound = True
-        tweetText = f"Double inside candles found for ${symbol}"
+        tweetText = f"Double inside {text} candles found for ${symbol}"
     # elif insideHighs and insideLows: 
     #     insidesFound = True
     #     tweetText = f"Single inside candle found for ${symbol}"
