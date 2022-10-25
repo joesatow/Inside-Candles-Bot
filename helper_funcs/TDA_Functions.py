@@ -17,14 +17,13 @@ currentMonth = datetime.now().month
 currentDay = datetime.now().day
 currentHour = datetime.now().time().hour
 currentTime = datetime(currentYear,currentMonth,currentDay,currentHour+4,0) # Add 4 because default timezone is GMT
-endDate = math.trunc(timestamp(currentTime)) 
 
 # TDA API call for price data
 @on_exception(expo, requests.exceptions.RequestException, max_time=60)
 @sleep_and_retry
 @limits(calls=120, period=60)
 def call_TD_API(symbol, timeframe):
-    global endDate
+    endDate = math.trunc(timestamp(currentTime)) 
     if timeframe == '1d':
         subtractedDays = 8
         startDate = math.trunc(timestamp(currentTime-timedelta(days=subtractedDays))) # subtract specified days from endDate to get startDate
