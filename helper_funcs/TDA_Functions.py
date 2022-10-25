@@ -24,6 +24,7 @@ endDate = math.trunc(timestamp(currentTime))
 @sleep_and_retry
 @limits(calls=120, period=60)
 def call_TD_API(symbol, timeframe):
+    global endDate
     if timeframe == '1d':
         subtractedDays = 8
         startDate = math.trunc(timestamp(currentTime-timedelta(days=subtractedDays))) # subtract specified days from endDate to get startDate
