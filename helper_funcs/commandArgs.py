@@ -28,11 +28,12 @@ if args.sendtweet == 'y' or args.sendtweet == 'yes':
 else:
     args.sendtweet = False
 
-symbolInput = args.override.upper()
-if symbolInput in validSymbols:
-    setSymbols(symbolInput)
-else:
-    raise Exception("Invalid ticker...")
+if args.override:
+    symbolInput = args.override.upper()
+    if symbolInput in validSymbols:
+        setSymbols(symbolInput)
+    else:
+        raise Exception("Invalid ticker...")
 
 def getArgs():
     return args
