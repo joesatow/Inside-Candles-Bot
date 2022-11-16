@@ -37,7 +37,7 @@ def call_TD_API(symbol, timeframe):
             endDate = math.trunc(timestamp(currentTime))
         url = f"https://api.tdameritrade.com/v1/marketdata/{symbol}/pricehistory?apikey={TD_API_Key}&periodType=day&frequencyType=minute&frequency=15&endDate={endDate}&startDate={startDate}&needExtendedHoursData=false"
     elif timeframe == '1h':
-        # 4 hour time difference from GMT to EST.  but we cant 15 mins beforethat since XX:45 will be the last cacndle we want - hence +3 hours vs 4, and minute 45.
+        # 4 hour time difference from GMT to EST.  but we want 15 mins beforethat since XX:45 will be the last candle we want - hence +3 hours vs 4, and minute 45.
         endDate = math.trunc(timestamp(datetime(currentYear,currentMonth,currentDay,currentHour+3,45))) 
         subtractedDays = 4
         startDate = math.trunc(timestamp(currentTime-timedelta(days=subtractedDays)))
